@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "awslabs.openapi-mcp-server": {
+      "command": "uvx",
+      "args": ["awslabs.openapi-mcp-server@latest"],
+      "env": {
+        "API_NAME": "PetStore",
+        "API_BASE_URL": "https://petstore3.swagger.io/api/v3",
+        "API_SPEC_URL": "https://petstore3.swagger.io/api/v3/openapi.json"
+      }
+    }
+  }
+}

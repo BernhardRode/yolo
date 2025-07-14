@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dogs That Need Training - Petstore</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            min-width: 150px;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .dogs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+        
+        .dog-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .dog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .dog-header {
+            padding: 20px;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+        }
+        
+        .dog-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+        }
+        
+        .dog-id {
+            color: #666;
+            font-size: 0.9em;
+            margin: 5px 0 0 0;
+        }
+        
+        .dog-details {
+            padding: 20px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .detail-label {
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .detail-value {
+            color: #777;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-available {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        
+        .tag {
+            background: #e9ecef;
+            color: #495057;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            color: #666;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .yolo-badge {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ff6b6b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="yolo-badge">🐕 YOLO!</div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>🐕 Dogs That Need Training</h1>
+            <p>Helping our furry friends become their best selves!</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">18</div>
+                <div class="stat-label">Available Dogs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Pending Training</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">30</div>
+                <div class="stat-label">Total Dogs</div>
+            </div>
+        </div>
+        
+        <div class="dogs-grid">
+            <!-- Available Dogs -->
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Dog 1</h3>
+                    <p class="dog-id">ID: 4</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-available">Available</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Dogs</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Tags:</span>
+                        <div class="tags">
+                            <span class="tag">tag1</span>
+                            <span class="tag">tag2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Unnamed Dog</h3>
+                    <p class="dog-id">ID: 12345</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-available">Available</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">dogs</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Tags:</span>
+                        <div class="tags">
+                            <span class="tag">tag1</span>
+                            <span class="tag">tag2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Fido</h3>
+                    <p class="dog-id">ID: 99</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-available">Available</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">dogz</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Tags:</span>
+                        <div class="tags">
+                            <span class="tag">friendly</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Tommy</h3>
+                    <p class="dog-id">ID: 15</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-available">Available</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Dogs</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Doggie</h3>
+                    <p class="dog-id">ID: 13314</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-available">Available</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Dogs</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Fluffy</h3>
+                    <p class="dog-id">ID: 1752491353723</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-available">Available</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Dogs</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Tags:</span>
+                        <div class="tags">
+                            <span class="tag">cute</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Doggie120</h3>
+                    <p class="dog-id">ID: 120</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-available">Available</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Dogs</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Baracuda</h3>
+                    <p class="dog-id">ID: 1011211</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-available">Available</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Dogs</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Dog</h3>
+                    <p class="dog-id">ID: 6</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-available">Available</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Unnamed</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Woofy Mc Woof</h3>
+                    <p class="dog-id">ID: 1287138758235</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-available">Available</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Unnamed</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- More available dogs -->
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">${dato.name}</h3>
+                    <p class="dog-id">ID: 1005</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-available">Available</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Dogs</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">dato.name</h3>
+                    <p class="dog-id">ID: 1003</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-available">Available</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Dogs</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">dato.name</h3>
+                    <p class="dog-id">ID: 1002</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-available">Available</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Dogs</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Doggie</h3>
+                    <p class="dog-id">ID: 990</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-available">Available</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Dogs</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Doggie</h3>
+                    <p class="dog-id">ID: 101</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-available">Available</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Dogs</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Doggie</h3>
+                    <p class="dog-id">ID: 10</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-available">Available</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Dogs</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pending Dogs -->
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Doggie (Karl)</h3>
+                    <p class="dog-id">ID: 241</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-pending">Pending</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Karl</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Tags:</span>
+                        <div class="tags">
+                            <span class="tag">sint laborum ut aliquip</span>
+                            <span class="tag">ex esse aute</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Doggie (Misael)</h3>
+                    <p class="dog-id">ID: 726</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-pending">Pending</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Misael</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Doggie (Summer)</h3>
+                    <p class="dog-id">ID: 139</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-pending">Pending</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Summer</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Doggie (Summer)</h3>
+                    <p class="dog-id">ID: 635</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-pending">Pending</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Summer</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Doggie (Summer)</h3>
+                    <p class="dog-id">ID: 976</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-pending">Pending</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Summer</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Doggie (Hudson)</h3>
+                    <p class="dog-id">ID: 254</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-pending">Pending</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Hudson</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Doggie (Nona)</h3>
+                    <p class="dog-id">ID: 242</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-pending">Pending</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Nona</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Doggie (Berenice)</h3>
+                    <p class="dog-id">ID: 98</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-pending">Pending</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Berenice</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Doggie (Regan)</h3>
+                    <p class="dog-id">ID: 788</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-pending">Pending</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Regan</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Doggie (Alaina)</h3>
+                    <p class="dog-id">ID: 686</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-pending">Pending</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Alaina</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Doggie (Fannie)</h3>
+                    <p class="dog-id">ID: 761</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-pending">Pending</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Fannie</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Doggie (Axel)</h3>
+                    <p class="dog-id">ID: 257</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-pending">Pending</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Axel</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-card">
+                <div class="dog-header">
+                    <h3 class="dog-name">Doggie (Martine)</h3>
+                    <p class="dog-id">ID: 123456</p>
+                </div>
+                <div class="dog-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="status-badge status-pending">Pending</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">Martine</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>🐕 Made with ❤️ for our furry friends | YOLO Pet Training Center</p>
+            <p>Contact us to schedule training sessions for these amazing dogs!</p>
+        </div>
+    </div>
+</body>
+</html>
